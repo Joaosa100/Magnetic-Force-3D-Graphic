@@ -132,13 +132,13 @@ function App() {
       <section id="result" className="py-10 px-4 h-40 flex flex-col items-center justify-center">
   {resultData ? (
     <div className="text-center mt-4">
-      <p>A Força Magnética resultante é:</p>
+      <p>A Vetor Força Magnética resultante é:</p>
       {resultData.Fm.map((component, index) => (
         <p
           key={index}
           className="font-bold text-lg mt-2 text-green-600"
         >
-          Fm<sub>{['x', 'y', 'z'][index]}</sub>: {component.toFixed(16)} N
+          Fm<sub>{['x', 'y', 'z'][index]}</sub>: {component.toExponential(3)} N
         </p>
       ))}
     </div>
@@ -146,7 +146,6 @@ function App() {
     <p className="text-center text-gray-500">Preencha os campos e calcule a força magnética.</p>
   )}
 </section>
-
 
     </section>
     </>
