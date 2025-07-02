@@ -70,64 +70,67 @@ function App() {
   onSubmit={handleSubmit}
   className="w-full max-w-md bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-4"
 >
-  <div className="flex flex-row items-center justify-between space-x-4">
-    <div>
-      <Label htmlFor="VX">Vx:</Label>
-      <Input name="VX" type="text" id="VX" />
-      {/* <p className="text-sm text-red-600 mt-2">OBS: Deixe vazio para usar a VX magnética no vácuo (4π×10⁻⁷)</p> */}
-    </div>
-    <div>
-      <Label htmlFor="VY">Vy:</Label>
-      <Input name="VY" type="text" id="VY" />
-    </div>
-    <div>
-      <Label htmlFor="VZ">Vz:</Label>
-      <Input name="VZ" type="text" id="VZ" />
-    </div>
+  <p>Valores das componentes do Vetor de volocidade da Partícula:</p>
+  <div className="flex flex-row justify-evenly space-x-4">
+      <div>
+        <Label htmlFor="VX">Vx:</Label>
+        <Input name="VX" type="text" id="VX" />
+        {/* <p className="text-sm text-red-600 mt-2">OBS: Deixe vazio para usar a VX magnética no vácuo (4π×10⁻⁷)</p> */}
+      </div>
+      <div>
+        <Label htmlFor="VY">Vy:</Label>
+        <Input name="VY" type="text" id="VY" />
+      </div>
+      <div>
+        <Label htmlFor="VZ">Vz:</Label>
+        <Input name="VZ" type="text" id="VZ" />
+      </div>
   </div>
 
-  <div className="flex flex-row items-center justify-between space-x-4">
-    <div>
-      <Label htmlFor="BX">Bx:</Label>
-      <Input name="BX" type="text" id="BX" />
-      {/* <p className="text-sm text-red-600 mt-2">OBS: Deixe vazio para usar a VX magnética no vácuo (4π×10⁻⁷)</p> */}
-    </div>
-    <div>
-      <Label htmlFor="BY">By:</Label>
-      <Input name="BY" type="text" id="BY" />
-    </div>
-    <div>
-      <Label htmlFor="BZ">Bz:</Label>
-      <Input name="BZ" type="text" id="BZ" />
-    </div>
+  <p className='pt-4'>Valores das componentes do Vetor Campo Magnético:</p>
+  <div className="flex flex-row justify-evenly space-x-4">
+      <div>
+        <Label htmlFor="BX">Bx:</Label>
+        <Input name="BX" type="text" id="BX" />
+        {/* <p className="text-sm text-red-600 mt-2">OBS: Deixe vazio para usar a VX magnética no vácuo (4π×10⁻⁷)</p> */}
+      </div>
+      <div>
+        <Label htmlFor="BY">By:</Label>
+        <Input name="BY" type="text" id="BY" />
+      </div>
+      <div>
+        <Label htmlFor="BZ">Bz:</Label>
+        <Input name="BZ" type="text" id="BZ" />
+      </div>
   </div>
 
-        <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0">  
-          <label className="flex items-center">
-            <input
-              type="radio"
-              name="option"
-              value="option1"
-              checked={formData.option === "option1"}
-              onChange={handleChange}
-              className="mr-2"
-            />
-            Próton
-          </label>
-          <label className="flex items-center">
-            <input
-              type="radio"
-              name="option"
-              value="option2"
-              checked={formData.option === "option2"}
-              onChange={handleChange}
-              className="mr-2"
-            />
-            Elétron
-          </label>
-        </div>
-        <Button type="submit">Calcular</Button>
-      </form>
+  <p className='pt-4'>Carga da Partícula:</p>
+    <div className="flex flex-col sm:flex-row sm:space-x-8 space-y-2 sm:space-y-0">  
+      <label className="flex items-center">
+        <input
+          type="radio"
+          name="option"
+          value="option1"
+          checked={formData.option === "option1"}
+          onChange={handleChange}
+          className="mr-2"
+        />
+        Próton (+)
+      </label>
+      <label className="flex items-center">
+        <input
+          type="radio"
+          name="option"
+          value="option2"
+          checked={formData.option === "option2"}
+          onChange={handleChange}
+          className="mr-2"
+        />
+        Elétron (-)
+      </label>
+    </div>
+    <Button type="submit">Calcular</Button>
+</form>
 
       <section id="result" className="py-10 px-4 h-40 flex flex-col items-center justify-center">
   {resultData ? (
