@@ -62,15 +62,15 @@ function App() {
 
   return (
     <>
-      <section className="flex flex-col items-center p-4 bg-gray-100 min-h-screen">
-      <h1 className="text-lg sm:text-2xl font-bold mb-6 text-center">
+      <section className="flex flex-col items-center p-4 bg-gray-100 min-h-screen font-montserrat tracking-wider">
+      <h1 className="text-lg sm:text-2xl font-bold mb-6 text-center ">
   Calcular Vetor Força Magnética Em Uma Partícula Com Carga
 </h1>
 <form
   onSubmit={handleSubmit}
-  className="w-full max-w-md bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-4"
+  className="w-full max-w-md bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-4" //recebe espaçamento de todos, pensando em criar uma section para cada um dos 3 agrupamentos, assim eu posso mexer entre eles
 >
-  <p>Valores das componentes do Vetor de volocidade da Partícula:</p>
+  <p className='font-bold '>Valores das componentes do Vetor de velocidade da Partícula:</p>
   <div className="flex flex-row justify-evenly space-x-4">
       <div>
         <Label htmlFor="VX">Vx:</Label>
@@ -87,7 +87,7 @@ function App() {
       </div>
   </div>
 
-  <p className='pt-4'>Valores das componentes do Vetor Campo Magnético:</p>
+  <p className='font-bold pt-4'>Valores das componentes do Vetor Campo Magnético:</p>
   <div className="flex flex-row justify-evenly space-x-4">
       <div>
         <Label htmlFor="BX">Bx:</Label>
@@ -104,7 +104,7 @@ function App() {
       </div>
   </div>
 
-  <p className='pt-4'>Carga da Partícula:</p>
+  <p className='pt-4 font-bold'>Carga da Partícula:</p>
     <div className="flex flex-col sm:flex-row sm:space-x-8 space-y-2 sm:space-y-0">  
       <label className="flex items-center">
         <input
