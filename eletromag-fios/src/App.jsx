@@ -59,7 +59,7 @@ function App() {
       Fm, // Armazena o array diretamente
     });
 
- fetch("http://127.0.0.1:8000/plotar", { //endereço fornecido pelo comando no backend uvicorn main:app --reload
+ fetch("example", { //endereço fornecido pelo comando no backend uvicorn main:app --reload
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ Fm }),
