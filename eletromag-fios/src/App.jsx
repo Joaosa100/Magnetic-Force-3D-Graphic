@@ -68,14 +68,14 @@ function App() {
 </h1>
 <form
   onSubmit={handleSubmit}
-  className="w-full max-w-md bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-4" //recebe espaçamento de todos, pensando em criar uma section para cada um dos 3 agrupamentos, assim eu posso mexer entre eles
+  className="w-full max-w-md bg-white p-4 sm:p-6 rounded-lg shadow-md" //recebe espaçamento de todos, pensando em criar uma section para cada um dos 3 agrupamentos, assim eu posso mexer entre eles
 >
-  <p className='font-bold '>Valores das componentes do Vetor de velocidade da Partícula:</p>
-  <div className="flex flex-row justify-evenly space-x-4">
+  <div className="flex flex-col space-y-2">
+    <p className="font-bold">Valores das componentes do Vetor de velocidade da Partícula:</p>
+    <div className="flex flex-row justify-evenly space-x-4">
       <div>
         <Label htmlFor="VX">Vx:</Label>
         <Input name="VX" type="text" id="VX" />
-        {/* <p className="text-sm text-red-600 mt-2">OBS: Deixe vazio para usar a VX magnética no vácuo (4π×10⁻⁷)</p> */}
       </div>
       <div>
         <Label htmlFor="VY">Vy:</Label>
@@ -85,14 +85,15 @@ function App() {
         <Label htmlFor="VZ">Vz:</Label>
         <Input name="VZ" type="text" id="VZ" />
       </div>
+    </div>
   </div>
 
-  <p className='font-bold pt-4'>Valores das componentes do Vetor Campo Magnético:</p>
-  <div className="flex flex-row justify-evenly space-x-4">
+  <div className="flex flex-col mt-6">
+    <p className="font-bold">Valores das componentes do Vetor Campo Magnético:</p>
+    <div className="flex flex-row justify-evenly space-x-4 mt-2">
       <div>
         <Label htmlFor="BX">Bx:</Label>
         <Input name="BX" type="text" id="BX" />
-        {/* <p className="text-sm text-red-600 mt-2">OBS: Deixe vazio para usar a VX magnética no vácuo (4π×10⁻⁷)</p> */}
       </div>
       <div>
         <Label htmlFor="BY">By:</Label>
@@ -102,10 +103,12 @@ function App() {
         <Label htmlFor="BZ">Bz:</Label>
         <Input name="BZ" type="text" id="BZ" />
       </div>
+    </div>
   </div>
 
-  <p className='pt-4 font-bold'>Carga da Partícula:</p>
-    <div className="flex flex-col sm:flex-row sm:space-x-8 space-y-2 sm:space-y-0">  
+
+  <p className='mt-6 font-bold'>Carga da Partícula:</p>
+    <div className="flex flex-col sm:flex-row sm:space-x-8 mb-6 mt-2">  
       <label className="flex items-center">
         <input
           type="radio"
