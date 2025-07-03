@@ -2,7 +2,7 @@ import { useState } from 'react'
 import Button from './components/Button'
 import Label from './components/Label'
 import Input from './components/Input'
-import { calculateCampo } from './lib/Campo';
+import {calculateFm} from './lib/Campo'
 
 function App() {
   const [resultData, setResult] = useState(null)
@@ -19,110 +19,158 @@ function App() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  function handleSubmit(e){
-    e.preventDefault()
-
-    const formData = new FormData(e.currentTarget)
-    const data = Object.fromEntries(formData)
-    console.log(data)
-
-    const {permeabilidade, corrente, raio, option} = data
-
-    if(!corrente || !raio || !option){
-      alert("Você precisa preencher todos os campos")
-      return
+  function handleSubmit(e) {
+    e.preventDefault();
+  
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData);
+  
+    const { VX, VY, VZ, BX, BY, BZ, option } = data;
+  
+    if (!VX || !VY || !VZ || !BX || !BY || !BZ || !option) {
+      alert("Você precisa preencher todos os campos");
+      return;
     }
-
-    const parseNumber = (value) => parseFloat(value.replace(",","."));
-    const correnteNumber = parseNumber(corrente);
-    const raioNumber = parseNumber(raio);
-    const permeabilidadeNumber = permeabilidade
-      ? parseNumber(permeabilidade)
-      : 4 * Math.PI * Math.pow(10, -7);
-
-
-    if(isNaN(permeabilidadeNumber) || isNaN(correnteNumber) || isNaN(raioNumber)){
+  
+    const parseNumber = (value) => parseFloat(value.replace(",", "."));
+    const VXNumber = parseNumber(VX);
+    const VYNumber = parseNumber(VY);
+    const VZNumber = parseNumber(VZ);
+    const BXNumber = parseNumber(BX);
+    const BYNumber = parseNumber(BY);
+    const BZNumber = parseNumber(BZ);
+  
+    if (
+      isNaN(VXNumber) ||
+      isNaN(VYNumber) ||
+      isNaN(VZNumber) ||
+      isNaN(BXNumber) ||
+      isNaN(BYNumber) ||
+      isNaN(BZNumber)
+    ) {
       alert("Preencha os campos com números válidos");
       return;
     }
+  
+    const { Fm } = calculateFm(VXNumber, VYNumber, VZNumber, BXNumber, BYNumber, BZNumber, option);
 
-    if(permeabilidadeNumber<0 || correnteNumber<0 || raioNumber<0){
-      alert("Você precisa colocar valores não negativos");
-      return;
-    }
-
-    const B = calculateCampo(permeabilidadeNumber, correnteNumber, raioNumber, option)
-    console.log(B)
-
+  
     setResult({
-      CampoResultante: B,
+      Fm, // Armazena o array diretamente
+    });
+
+ fetch("example", { //endereço fornecido pelo comando no backend uvicorn main:app --reload
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ Fm }),
+  })
+    .then((res) => res.text())
+    .then((html) => {
+      const w = window.open();
+      if (w) {
+        w.document.write(html);
+        w.document.close();
+      } else {
+        alert("Permita pop-ups para visualizar o gráfico.");
+      }
     })
+    .catch(() => alert("Erro ao gerar o gráfico. Verifique o backend."));
 
   }
+  
 
   return (
     <>
-      <section className="flex flex-col items-center p-4 bg-gray-100 min-h-screen">
-      <h1 className="text-lg sm:text-2xl font-bold mb-6 text-center">
-        Calcular Campo Magnético em fio eletrificado
-      </h1>
-      <form onSubmit={handleSubmit} className="w-full max-w-md bg-white p-4 sm:p-6 rounded-lg shadow-md space-y-4">
+      <section className="flex flex-col items-center p-4 bg-gray-100 min-h-screen font-montserrat tracking-wider">
+      <h1 className="text-lg sm:text-2xl font-bold mb-6 text-center ">
+  Calcular Vetor Força Magnética Em Uma Partícula Com Carga
+</h1>
+<form
+  onSubmit={handleSubmit}
+  className="w-full max-w-md bg-white p-4 sm:p-6 rounded-lg shadow-md" //recebe espaçamento de todos, pensando em criar uma section para cada um dos 3 agrupamentos, assim eu posso mexer entre eles
+>
+  <div className="flex flex-col space-y-2">
+    <p className="font-bold">Vetor Velocidade da Partícula (V):</p>
+    <div className="flex flex-row justify-evenly space-x-4">
       <div>
-      <Label htmlFor="permeabilidade">Permeabilidade Magnética (N / A^2):</Label>
-        <Input name="permeabilidade" type="text" id="permeabilidade"></Input>
-        <p className="text-sm text-red-600 mt-2">
-  OBS: Deixe vazio para usar a permeabilidade magnética no vácuo (4π×10⁻⁷)
-</p>
-
+        <Label htmlFor="VX">Vx:</Label>
+        <Input name="VX" type="text" id="VX" />
       </div>
-        
-        <div>
-            <Label htmlFor="corrente" >Corrente (A):</Label>
-            <Input name="corrente" type="text" id="corrente"></Input>
-        </div>
+      <div>
+        <Label htmlFor="VY">Vy:</Label>
+        <Input name="VY" type="text" id="VY" />
+      </div>
+      <div>
+        <Label htmlFor="VZ">Vz:</Label>
+        <Input name="VZ" type="text" id="VZ" />
+      </div>
+    </div>
+  </div>
 
-        <div>
-            <Label htmlFor="raio" >Raio (m):</Label>
-            <Input name="raio" type="text" id="raio"></Input>
-        </div>
+  <div className="flex flex-col mt-6">
+    <p className="font-bold">Vetor Campo Magnético (B):</p>
+    <div className="flex flex-row justify-evenly space-x-4 mt-2">
+      <div>
+        <Label htmlFor="BX">Bx:</Label>
+        <Input name="BX" type="text" id="BX" />
+      </div>
+      <div>
+        <Label htmlFor="BY">By:</Label>
+        <Input name="BY" type="text" id="BY" />
+      </div>
+      <div>
+        <Label htmlFor="BZ">Bz:</Label>
+        <Input name="BZ" type="text" id="BZ" />
+      </div>
+    </div>
+  </div>
 
-        <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-2 sm:space-y-0">  
-          <label className="flex items-center">
-            <input
-              type="radio"
-              name="option"
-              value="option1"
-              checked={formData.option === "option1"}
-              onChange={handleChange}
-              className="mr-2"
-            />
-            Fio "Infinito"
-          </label>
-          <label className="flex items-center">
-            <input
-              type="radio"
-              name="option"
-              value="option2"
-              checked={formData.option === "option2"}
-              onChange={handleChange}
-              className="mr-2"
-            />
-            Fio Semi-Infinito
-          </label>
-        </div>
-        <Button type="submit">Calcular</Button>
-      </form>
+
+  <p className='mt-6 font-bold'>Carga da Partícula:</p>
+    <div className="flex flex-col sm:flex-row sm:space-x-8 mb-6 mt-2">  
+      <label className="flex items-center">
+        <input
+          type="radio"
+          name="option"
+          value="option1"
+          checked={formData.option === "option1"}
+          onChange={handleChange}
+          className="mr-2"
+        />
+        Próton (+)
+      </label>
+      <label className="flex items-center">
+        <input
+          type="radio"
+          name="option"
+          value="option2"
+          checked={formData.option === "option2"}
+          onChange={handleChange}
+          className="mr-2"
+        />
+        Elétron (-)
+      </label>
+    </div>
+    <Button type="submit">Calcular</Button>
+</form>
 
       <section id="result" className="py-10 px-4 h-40 flex flex-col items-center justify-center">
-          {resultData ? (
-            <div className="text-center mt-4">
-              <p>O campo magnético resultante é:</p>
-              <p className="font-bold text-lg mt-2 text-green-600">{resultData.CampoResultante.toFixed(9)} T</p>
-            </div>
-            ) : (
-              <p>Campo magnético resultante</p>
-            )}
-      </section>
+  {resultData ? (
+    <div className="text-center mt-4">
+      <p>O Vetor Força Magnética resultante é:</p>
+      {resultData.Fm.map((component, index) => (
+        <p
+          key={index}
+          className="font-bold text-lg mt-2 text-green-600"
+        >
+          Fm<sub>{['x', 'y', 'z'][index]}</sub>: {component.toExponential(3)} N
+        </p>
+      ))}
+    </div>
+  ) : (
+    <p className="text-center text-gray-500">Preencha os campos e calcule a força magnética.</p>
+  )}
+</section>
 
     </section>
     </>
