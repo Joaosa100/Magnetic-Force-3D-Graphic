@@ -53,10 +53,29 @@ function App() {
     }
   
     const { Fm } = calculateFm(VXNumber, VYNumber, VZNumber, BXNumber, BYNumber, BZNumber, option);
+
   
     setResult({
       Fm, // Armazena o array diretamente
     });
+
+ fetch("http://127.0.0.1:8000/plotar", { //endereço fornecido pelo comando no backend uvicorn main:app --reload
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ Fm }),
+  })
+    .then((res) => res.text())
+    .then((html) => {
+      const w = window.open();
+      if (w) {
+        w.document.write(html);
+        w.document.close();
+      } else {
+        alert("Permita pop-ups para visualizar o gráfico.");
+      }
+    })
+    .catch(() => alert("Erro ao gerar o gráfico. Verifique o backend."));
+
   }
   
 
@@ -71,7 +90,7 @@ function App() {
   className="w-full max-w-md bg-white p-4 sm:p-6 rounded-lg shadow-md" //recebe espaçamento de todos, pensando em criar uma section para cada um dos 3 agrupamentos, assim eu posso mexer entre eles
 >
   <div className="flex flex-col space-y-2">
-    <p className="font-bold">Valores das componentes do Vetor de velocidade da Partícula:</p>
+    <p className="font-bold">Vetor Velocidade da Partícula (V):</p>
     <div className="flex flex-row justify-evenly space-x-4">
       <div>
         <Label htmlFor="VX">Vx:</Label>
@@ -89,7 +108,7 @@ function App() {
   </div>
 
   <div className="flex flex-col mt-6">
-    <p className="font-bold">Valores das componentes do Vetor Campo Magnético:</p>
+    <p className="font-bold">Vetor Campo Magnético (B):</p>
     <div className="flex flex-row justify-evenly space-x-4 mt-2">
       <div>
         <Label htmlFor="BX">Bx:</Label>
@@ -138,7 +157,7 @@ function App() {
       <section id="result" className="py-10 px-4 h-40 flex flex-col items-center justify-center">
   {resultData ? (
     <div className="text-center mt-4">
-      <p>A Vetor Força Magnética resultante é:</p>
+      <p>O Vetor Força Magnética resultante é:</p>
       {resultData.Fm.map((component, index) => (
         <p
           key={index}
