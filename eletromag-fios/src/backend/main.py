@@ -9,7 +9,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["example"], # endereço fornecido pelo comando npm run dev
+    allow_origins=["http://localhost:5173"], # endereço fornecido pelo comando npm run dev
     allow_methods=["*"],
     allow_headers=["*"],
 )
